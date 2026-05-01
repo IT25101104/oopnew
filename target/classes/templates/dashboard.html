@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wedding Planner - Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="/dashboard" class="brand">✨ Wedding Planner</a>
+            <a href="/logout" class="btn btn-secondary">Sign Out</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="glass-card dashboard-card">
+            <div class="glass-header d-flex justify-between align-center">
+                <h2 class="mb-0">Your Wedding Dashboard</h2>
+                <a href="/edit-profile" class="btn btn-primary">Edit Details</a>
+            </div>
+            <div class="glass-body">
+                <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+                
+                <h4 class="title-gradient mb-4">Welcome, <span th:text="${user.email}"></span></h4>
+                
+                <div class="data-row">
+                    <div class="data-label">Partner's Name</div>
+                    <div class="data-value" th:text="${user.partnerName}"></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Wedding Date</div>
+                    <div class="data-value" th:text="${user.weddingDate}"></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Phone Number</div>
+                    <div class="data-value" th:text="${user.phoneNumber}"></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Wedding Location</div>
+                    <div class="data-value" th:text="${user.weddingLocation}"></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Expected Guest Count</div>
+                    <div class="data-value" th:text="${user.guestCount}"></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Estimated Budget</div>
+                    <div class="data-value" th:text="${'$' + #numbers.formatDecimal(user.budget, 1, 'COMMA', 2, 'POINT')}"></div>
+                </div>
+                
+                <div class="mt-4 pt-4" style="border-top: 1px solid rgba(255,255,255,0.3); text-align: right;">
+                    <form action="/delete" method="post" onsubmit="return confirm('Are you sure you want to cancel your account? This action cannot be undone.');">
+                        <button type="submit" class="btn btn-danger">Cancel Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

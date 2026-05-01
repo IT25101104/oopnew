@@ -1,0 +1,6 @@
+com\wedding\WeddingPlannerApplication.class
+com\wedding\util\ClientManager.class
+com\wedding\controller\ClientController.class
+com\wedding\model\User.class
+com\wedding\model\Client.class
+com\wedding\controller\AdminController.class

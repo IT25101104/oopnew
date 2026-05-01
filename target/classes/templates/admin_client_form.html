@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Manage Client</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="/admin/dashboard" class="brand">🛡️ Admin Portal</a>
+            <a href="/logout" class="btn btn-secondary">Sign Out</a>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 600px; margin: 2rem auto;">
+        <div class="glass-card">
+            <div class="glass-header text-center">
+                <h2 class="mb-0" th:text="${client == null ? 'Create New Client' : 'Edit Client'}"></h2>
+            </div>
+            <div class="glass-body">
+                <form th:action="${client == null ? '/admin/client/create' : '/admin/client/update'}" method="post">
+                    <input th:if="${client != null}" type="hidden" name="userId" th:value="${client.userId}">
+                    
+                    <div class="form-group" th:if="${client == null}">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group" th:if="${client != null}">
+                        <label class="form-label">Email Address (Cannot change)</label>
+                        <input type="email" class="form-control" th:value="${client.email}" disabled style="opacity: 0.7;">
+                    </div>
+
+                    <div class="form-group" th:if="${client == null}">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Partner's Name</label>
+                        <input type="text" name="partnerName" class="form-control" th:value="${client != null ? client.partnerName : ''}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Wedding Date</label>
+                        <input type="date" name="weddingDate" class="form-control" th:value="${client != null ? client.weddingDate : ''}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" name="phoneNumber" class="form-control" th:value="${client != null ? client.phoneNumber : ''}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Wedding Location</label>
+                        <input type="text" name="weddingLocation" class="form-control" th:value="${client != null ? client.weddingLocation : ''}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Expected Guest Count</label>
+                        <input type="number" name="guestCount" class="form-control" th:value="${client != null ? client.guestCount : ''}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Estimated Budget ($)</label>
+                        <input type="number" step="0.01" name="budget" class="form-control" th:value="${client != null ? client.budget : ''}" required>
+                    </div>
+
+                    <div class="d-flex justify-between mt-4">
+                        <a href="/admin/dashboard" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary" th:text="${client == null ? 'Create Client' : 'Save Changes'}"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

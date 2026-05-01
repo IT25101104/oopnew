@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - View Client</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="/admin/dashboard" class="brand">🛡️ Admin Portal</a>
+            <a href="/logout" class="btn btn-secondary">Sign Out</a>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 700px; margin: 2rem auto;">
+        <div class="glass-card">
+            <div class="glass-header d-flex justify-between align-center">
+                <h2 class="mb-0">Client Details</h2>
+                <a th:href="@{/admin/client/edit(userId=${client.userId})}" class="btn btn-primary">Edit Client</a>
+            </div>
+            <div class="glass-body">
+                <div class="data-row">
+                    <div class="data-label">User ID</div>
+                    <div class="data-value" th:text="${client.userId}" style="font-family: monospace; font-size: 0.9em;"></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Email Address</div>
+                    <div class="data-value" th:text="${client.email}"></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">User Type</div>
+                    <div class="data-value" th:text="${client.userType}"></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Partner's Name</div>
+                    <div class="data-value" th:text="${client.partnerName}"></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Wedding Date</div>
+                    <div class="data-value" th:text="${client.weddingDate}"></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Phone Number</div>
+                    <div class="data-value" th:text="${client.phoneNumber}"></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Wedding Location</div>
+                    <div class="data-value" th:text="${client.weddingLocation}"></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Expected Guest Count</div>
+                    <div class="data-value" th:text="${client.guestCount}"></div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Estimated Budget</div>
+                    <div class="data-value" th:text="${'$' + #numbers.formatDecimal(client.budget, 1, 'COMMA', 2, 'POINT')}"></div>
+                </div>
+
+                <div class="d-flex justify-between mt-5 pt-4" style="border-top: 1px solid rgba(255,255,255,0.3);">
+                    <a href="/admin/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+                    <form action="/admin/delete" method="post" onsubmit="return confirm('Delete this client account forever?');" style="margin: 0;">
+                        <input type="hidden" name="userId" th:value="${client.userId}">
+                        <button type="submit" class="btn btn-danger">Delete Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

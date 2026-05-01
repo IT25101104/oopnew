@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - Client Management</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .admin-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.4);
+        }
+        th {
+            background: rgba(255,255,255,0.2);
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="/admin/dashboard" class="brand">🛡️ Admin Portal</a>
+            <a href="/logout" class="btn btn-secondary">Sign Out</a>
+        </div>
+    </nav>
+
+    <div class="container admin-container">
+        <div class="glass-card">
+            <div class="glass-header d-flex justify-between align-center">
+                <h2 class="mb-0">Client Management</h2>
+                <a href="/admin/client/new" class="btn btn-primary">Add New Client</a>
+            </div>
+            <div class="glass-body" style="overflow-x: auto;">
+                <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+                <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+                
+                <table th:if="${not #lists.isEmpty(clients)}">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Partner Name</th>
+                            <th>Wedding Date</th>
+                            <th>Budget</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="client : ${clients}">
+                            <td th:text="${client.email}"></td>
+                            <td th:text="${client.partnerName}"></td>
+                            <td th:text="${client.weddingDate}"></td>
+                            <td th:text="${'$' + #numbers.formatDecimal(client.budget, 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <a th:href="@{/admin/client/view(userId=${client.userId})}" class="btn btn-secondary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">View</a>
+                                    <a th:href="@{/admin/client/edit(userId=${client.userId})}" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Edit</a>
+                                    <form action="/admin/delete" method="post" onsubmit="return confirm('Delete this client account forever?');" style="margin: 0;">
+                                        <input type="hidden" name="userId" th:value="${client.userId}">
+                                        <button type="submit" class="btn btn-danger" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div th:if="${#lists.isEmpty(clients)}" class="text-center" style="padding: 3rem 0; color: var(--text-muted);">
+                    <h4>No clients registered yet.</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

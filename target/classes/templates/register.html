@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wedding Planner - Register</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="center-wrapper">
+        <div class="glass-card auth-card">
+            <div class="glass-header text-center">
+                <h2 class="title-gradient mb-0">Plan Your Dream</h2>
+            </div>
+            <div class="glass-body">
+                <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+                
+                <form action="/register" method="post">
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" name="email" class="form-control" required placeholder="you@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" required placeholder="••••••••">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Partner's Name</label>
+                        <input type="text" name="partnerName" class="form-control" required placeholder="e.g., Alex">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Wedding Date</label>
+                        <input type="date" name="weddingDate" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" name="phoneNumber" class="form-control" required placeholder="e.g., +1 234 567 890">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Wedding Location</label>
+                        <input type="text" name="weddingLocation" class="form-control" required placeholder="e.g., The Grand Hotel">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Expected Guest Count</label>
+                        <input type="number" name="guestCount" class="form-control" required placeholder="e.g., 150">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Estimated Budget ($)</label>
+                        <input type="number" step="0.01" name="budget" class="form-control" required placeholder="e.g., 15000">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mt-4">Create Account</button>
+                </form>
+                
+                <div class="text-center mt-4">
+                    <a href="/login" class="link-muted">Already have an account? Log in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
