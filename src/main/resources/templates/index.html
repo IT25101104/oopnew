@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Planner | Home</title>
+    <style>
+        /* Modern UI Base Integration */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --secondary: #ec4899;
+            --dark: #1e1b4b;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --bg-gradient-1: #e0e7ff;
+            --bg-gradient-2: #fbcfe8;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            background: linear-gradient(135deg, var(--bg-gradient-1) 0%, var(--bg-gradient-2) 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Glassmorphism Card Utilities */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            overflow: hidden;
+            animation: fadeUp 0.6s ease-out forwards;
+        }
+
+        .glass-card:hover {
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.4);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .glass-body {
+            padding: 2rem;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            align-items: center;
+        }
+
+        /* Typography */
+        .title-gradient {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        /* Forms */
+        .form-group { margin-bottom: 1.5rem; }
+        .form-label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main); }
+        .form-control, .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.5);
+            transition: var(--transition);
+            box-sizing: border-box;
+            color: var(--text-main);
+        }
+
+        .form-control:focus, .form-select:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .btn-primary { background: var(--primary); color: white; width: 100%; }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+
+        .btn-outline-danger { background: transparent; color: #ef4444; border: 1px solid #ef4444; font-size: 0.8rem; padding: 0.4rem 0.8rem; }
+        .btn-outline-danger:hover { background: #ef4444; color: white; }
+
+        /* Layout */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .hero { text-align: center; padding: 5rem 0 3rem 0; }
+        .center-wrapper { display: flex; justify-content: center; padding: 2rem 0; }
+        .auth-card { width: 100%; max-width: 700px; }
+
+        /* Alerts */
+        .alert { padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem; font-weight: 500; }
+        .alert-success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .link-muted { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; }
+        .link-muted:hover { color: var(--primary); }
+        .active-link { color: var(--primary); font-weight: 700; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a class="brand" href="/">Wedding Planner</a>
+        <ul class="nav-links">
+            <li><a href="/" class="active-link">Home</a></li>
+            <li><a href="/client-history" class="link-muted">My History</a></li>
+            <li><a href="/vendor-panel" class="link-muted" style="color: var(--secondary); font-weight: 600;">Vendor Panel</a></li>
+            <li>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-outline-danger">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="hero">
+    <div class="container">
+        <h1 class="title-gradient" style="font-size: 3rem; margin-bottom: 1rem;">Plan Your Dream Wedding</h1>
+        <p style="color: var(--text-muted); font-size: 1.1rem;">Check availability and book your favorite vendors instantly.</p>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="center-wrapper">
+        <div class="glass-card auth-card">
+            <div class="glass-header">
+                <h3 class="mb-0" style="color: var(--dark);">Make a Reservation</h3>
+            </div>
+            <div class="glass-body">
+                <!-- Alerts -->
+                <div th:if="${error}" class="alert alert-error">
+                    <strong th:text="${error}">Error</strong>
+                </div>
+                <div th:if="${message}" class="alert alert-success">
+                    <span th:text="${message}">Success</span>
+                </div>
+
+                <form th:action="@{/save}" method="post" th:object="${booking}">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="form-group">
+                            <label class="form-label">Client Name</label>
+                            <input type="text" class="form-control" th:field="*{clientName}" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Booking ID</label>
+                            <input type="text" class="form-control" th:field="*{bookingID}" placeholder="B-001" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Select Vendor</label>
+                            <select class="form-select" th:field="*{vendorName}" required>
+                                <option value="" selected disabled>Choose Vendor...</option>
+                                <option value="Grand Hotel - Catering">Grand Hotel - Catering</option>
+                                <option value="Royal Studio - Photography">Royal Studio - Photography</option>
+                                <option value="Elegant Decorators">Elegant Decorators</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Wedding Date</label>
+                            <input type="date" class="form-control" th:field="*{weddingDate}" required>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <button type="submit" class="btn btn-primary">Check Availability & Book</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer style="text-align: center; padding: 3rem 0; color: var(--text-muted); font-size: 0.9rem;">
+    <p>&copy; 2026 Wedding Planner System</p>
+</footer>
+
+</body>
+</html>

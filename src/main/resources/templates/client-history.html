@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Booking History | Wedding Planner</title>
+    <style>
+        /* Modern UI Base Integration */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --secondary: #ec4899;
+            --dark: #1e1b4b;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --bg-gradient-1: #e0e7ff;
+            --bg-gradient-2: #fbcfe8;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            background: linear-gradient(135deg, var(--bg-gradient-1) 0%, var(--bg-gradient-2) 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            overflow: hidden;
+            animation: fadeUp 0.6s ease-out forwards;
+        }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.4);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .glass-body {
+            padding: 2rem;
+        }
+
+        /* Typography & Headings */
+        .title-gradient {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            align-items: center;
+        }
+
+        /* Tables & Data */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 1rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .data-table td {
+            padding: 1.2rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Status Colors */
+        .status-confirmed { color: #10b981; font-weight: 700; }
+        .status-pending { color: #f59e0b; font-weight: 700; }
+
+        /* Buttons */
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-outline-danger {
+            background: transparent;
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+
+        .btn-outline-danger:hover {
+            background: #ef4444;
+            color: white;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+        }
+
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .link-muted { color: var(--text-muted); text-decoration: none; transition: var(--transition); }
+        .link-muted:hover { color: var(--primary); }
+        .active-link { color: var(--primary); font-weight: 700; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a class="brand" href="/">Wedding Planner</a>
+        <ul class="nav-links">
+            <li><a href="/" class="link-muted">Home</a></li>
+            <li><a href="/client-history" class="active-link">My History</a></li>
+            <li>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-outline-danger">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container" style="margin-top: 4rem;">
+    <div style="margin-bottom: 2.5rem;">
+        <h2 class="title-gradient" style="font-size: 2rem; margin-bottom: 0.5rem;">My Booking History</h2>
+        <p style="color: var(--text-muted);">Review your requested and confirmed wedding services below.</p>
+    </div>
+
+    <div class="glass-card">
+        <div class="glass-header">
+            <h3 style="margin: 0; font-size: 1.1rem; color: var(--dark);">Booking Records</h3>
+        </div>
+        <div class="glass-body" style="padding: 0;">
+            <div style="overflow-x: auto;">
+                <table class="data-table">
+                    <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Vendor Name</th>
+                        <th>Wedding Date</th>
+                        <th>Status</th>
+                        <th style="text-align: center;">Manage</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${#lists.isEmpty(allBookings)}">
+                        <td colspan="5" style="text-align: center; padding: 4rem; color: var(--text-muted);">
+                            You haven't made any bookings yet. <a href="/" style="color: var(--primary);">Click here to book.</a>
+                        </td>
+                    </tr>
+
+                    <tr th:each="b : ${allBookings}">
+                        <td style="font-weight: 700; color: var(--primary);" th:text="${b.bookingID}">#B001</td>
+                        <td th:text="${b.vendorName}" style="color: var(--dark);">Vendor Name</td>
+                        <td th:text="${b.weddingDate}">2026-06-12</td>
+                        <td>
+                                <span th:text="${b.status}"
+                                      th:class="${b.status == 'Confirmed' ? 'status-confirmed' : 'status-pending'}">
+                                    Pending
+                                </span>
+                        </td>
+                        <td style="text-align: center;">
+                            <form th:action="@{/cancel-booking}" method="post"
+                                  onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+                                <input type="hidden" name="id" th:value="${b.bookingID}">
+                                <button type="submit" class="btn btn-outline-danger" style="padding: 0.4rem 0.8rem;">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer style="text-align: center; margin-top: 5rem; padding: 2rem 0; color: var(--text-muted); font-size: 0.875rem;">
+    <p>&copy; 2026 Wedding Planner System - My Account</p>
+</footer>
+
+</body>
+</html>
