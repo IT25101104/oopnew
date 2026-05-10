@@ -40,7 +40,7 @@ public class BookingController {
             return "index";
         }
 
-        // දත්ත සුරැකීම
+       
         booking.setStatus("Pending");
         booking.saveToFile();
         bookingList.add(booking);
@@ -84,7 +84,7 @@ public class BookingController {
         return "redirect:/client-history";
     }
 
-    // --- Helper Methods (Abstraction Applied) ---
+    
 
 
     private boolean isAvailable(String vendor, String date) {
