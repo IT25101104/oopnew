@@ -24,7 +24,7 @@ public class BookingController {
     }
 
 
-    @GetMapping("/")
+    @GetMapping("/booking")
     public String showHomePage(Model model) {
         model.addAttribute("booking", new Booking());
         return "index";
